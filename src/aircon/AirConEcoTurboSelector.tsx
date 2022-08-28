@@ -33,8 +33,6 @@ export const AirConEcoTurboSelector = (props: {
 		if (state) {
 			const newEcoMode = newMode == 'eco' && !currentEcoMode;
 			const newTurboMode = newMode == 'turbo' && !currentTurboMode;
-			console.log(newMode);
-			console.log(newEcoMode);
 			state.eco = newEcoMode || false;
 			state.turbo = newTurboMode || false;
 			state.prompt_tone = !quietMode;
