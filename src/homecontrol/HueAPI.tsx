@@ -5,6 +5,7 @@ import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 export type HueRoom = {
 	identifier: string;
 	light_group: string | null;
+	devices: string[];
 };
 
 export type HueFetchRoomsResponse = { [key: string]: HueRoom };
