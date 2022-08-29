@@ -44,7 +44,7 @@ export const fetchGroupedLightState = (
 	name: string,
 ): Promise<GroupedLightState> => {
 	return axios
-		.get(`${API_BASE_URL}/hue/Home/room/${name}`, {
+		.get(`${API_BASE_URL}/hue/Home/grouped_lights/${name}`, {
 			headers: API_HEADER,
 		})
 		.then((response) => {
@@ -89,4 +89,60 @@ export const usePutGroupedLightState = () => {
 			return putGroupedLightState(variables.light_group, variables.state);
 		},
 	);
+};
+
+export type HueScene = {
+	identifier: string;
+	name: string;
+	room: string;
+};
+
+export const fetchScenes = (filters?: {
+	[key: string]: string;
+}): Promise<HueScene[]> => {
+	return axios
+		.get(`${API_BASE_URL}/hue/Home/scenes`, {
+			headers: API_HEADER,
+			params: { filters: filters },
+		})
+		.then((response) => {
+			return response.data;
+		});
+};
+
+export const useFetchScenes = (
+	filters?: {
+		[key: string]: string;
+	},
+	enabled?: boolean,
+): UseQueryResult<HueScene[]> => {
+	return useQuery<HueScene[], AxiosError>(
+		['fetchScenes', filters],
+		() => {
+			return fetchScenes(filters);
+		},
+		{
+			enabled: enabled,
+		},
+	);
+};
+
+export const putScene = (scene_id: string): Promise<string> => {
+	return axios
+		.put(
+			`${API_BASE_URL}/hue/Home/scenes/${scene_id}`,
+			JSON.stringify({ test: 'test' }), // Won't accept nothing
+			{
+				headers: API_HEADER,
+			},
+		)
+		.then((response) => {
+			return response.data;
+		});
+};
+
+export const usePutScene = () => {
+	return useMutation((scene_id: string): Promise<string> => {
+		return putScene(scene_id);
+	});
 };

@@ -8,9 +8,9 @@ import {
 } from '../homecontrol/AirconAPI';
 
 import {
-	GroupedLightState,
 	useFetchRooms,
-	usePutGroupedLightState,
+	useFetchScenes,
+	usePutScene,
 } from '../homecontrol/HueAPI';
 
 export const NightModeButton = (props: {
@@ -21,13 +21,25 @@ export const NightModeButton = (props: {
 	const { name, state, quietMode } = props;
 
 	const setDeviceStateMutation = usePutDeviceState(name);
-	const setLightingGroupStateMutation = usePutGroupedLightState();
+	const setSceneMutation = usePutScene();
 
 	const {
 		data: rooms,
 		isFetching: fetchingRooms,
 		isError: errorRooms,
 	} = useFetchRooms();
+
+	let room_id = undefined;
+	if (rooms && rooms[name] != undefined) room_id = rooms[name].identifier;
+
+	const {
+		data: scenes,
+		isFetching: fetchingScenes,
+		isError: errorScenes,
+	} = useFetchScenes(
+		{ room: room_id || '', name: 'Night' },
+		room_id != undefined,
+	);
 
 	const handleClick = () => {
 		if (state) {
@@ -39,20 +51,18 @@ export const NightModeButton = (props: {
 			state.prompt_tone = !quietMode;
 			setDeviceStateMutation.mutate(state);
 
-			if (!fetchingRooms && !errorRooms && rooms) {
-				const room = rooms[name];
-				if (room.light_group) {
-					const newState: GroupedLightState = {
-						power: true,
-						brightness: 20,
-						colour: null,
-						colour_temp: 2700,
-					};
-					setLightingGroupStateMutation.mutate({
-						light_group: room.light_group,
-						state: newState,
-					});
-				}
+			if (
+				!fetchingRooms &&
+				!errorRooms &&
+				rooms &&
+				!fetchingScenes &&
+				!errorScenes &&
+				scenes
+			) {
+				console.log(scenes);
+				if (scenes.length > 0)
+					// Assume first is right
+					setSceneMutation.mutate(scenes[0].identifier);
 			}
 		}
 	};
