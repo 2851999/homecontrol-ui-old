@@ -23,8 +23,8 @@ export const HomePage = (props: {
 				<CircularProgress />
 			) : deviceList?.length ? (
 				<Grid container rowSpacing={4} columnSpacing={{ xs: 2 }}>
-					{deviceList.map((name) => (
-						<Grid item xs={12} md={6}>
+					{deviceList.map((name, i) => (
+						<Grid item xs={12} md={6} key={i}>
 							<AirConCard
 								name={name}
 								quietMode={quietMode}
