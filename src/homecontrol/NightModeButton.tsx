@@ -37,7 +37,7 @@ export const NightModeButton = (props: {
 		isFetching: fetchingScenes,
 		isError: errorScenes,
 	} = useFetchScenes(
-		{ room: room_id || '', name: 'Night' },
+		{ 'room[eq]': room_id || '', 'name[eq]': 'Night' },
 		room_id != undefined,
 	);
 

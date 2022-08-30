@@ -100,10 +100,12 @@ export type HueScene = {
 export const fetchScenes = (filters?: {
 	[key: string]: string;
 }): Promise<HueScene[]> => {
+	const params = new URLSearchParams();
+	if (filters) params.append('filters', JSON.stringify(filters));
 	return axios
 		.get(`${API_BASE_URL}/hue/Home/scenes`, {
 			headers: API_HEADER,
-			params: { filters: filters },
+			params: params,
 		})
 		.then((response) => {
 			return response.data;
