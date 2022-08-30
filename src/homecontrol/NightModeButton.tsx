@@ -27,10 +27,10 @@ export const NightModeButton = (props: {
 		data: rooms,
 		isFetching: fetchingRooms,
 		isError: errorRooms,
-	} = useFetchRooms();
+	} = useFetchRooms({ 'name[eq]': name });
 
 	let room_id = undefined;
-	if (rooms && rooms[name] != undefined) room_id = rooms[name].identifier;
+	if (rooms && rooms[0] != undefined) room_id = rooms[0].identifier;
 
 	const {
 		data: scenes,

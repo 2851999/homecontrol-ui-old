@@ -4,27 +4,34 @@ import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
 export type HueRoom = {
 	identifier: string;
+	name: string;
 	light_group: string | null;
 	devices: string[];
 };
 
-export type HueFetchRoomsResponse = { [key: string]: HueRoom };
+export type Filters = { [key: string]: string };
 
-export const fetchRooms = (): Promise<HueFetchRoomsResponse> => {
+export const getURLSearchParams = (filters?: Filters) => {
+	const params = new URLSearchParams();
+	if (filters) params.append('filters', JSON.stringify(filters));
+	return params;
+};
+
+export const fetchRooms = (filters?: Filters): Promise<HueRoom[]> => {
+	const params = getURLSearchParams(filters);
 	return axios
 		.get(`${API_BASE_URL}/hue/Home/rooms`, {
 			headers: API_HEADER,
+			params: params,
 		})
 		.then((response) => {
 			return response.data;
 		});
 };
 
-export const useFetchRooms = (): UseQueryResult<{
-	[key: string]: HueRoom;
-}> => {
-	return useQuery<HueFetchRoomsResponse, AxiosError>(['fetchRooms'], () => {
-		return fetchRooms();
+export const useFetchRooms = (filters?: Filters): UseQueryResult<HueRoom[]> => {
+	return useQuery<HueRoom[], AxiosError>(['fetchRooms'], () => {
+		return fetchRooms(filters);
 	});
 };
 
@@ -97,11 +104,8 @@ export type HueScene = {
 	room: string;
 };
 
-export const fetchScenes = (filters?: {
-	[key: string]: string;
-}): Promise<HueScene[]> => {
-	const params = new URLSearchParams();
-	if (filters) params.append('filters', JSON.stringify(filters));
+export const fetchScenes = (filters?: Filters): Promise<HueScene[]> => {
+	const params = getURLSearchParams(filters);
 	return axios
 		.get(`${API_BASE_URL}/hue/Home/scenes`, {
 			headers: API_HEADER,
@@ -113,9 +117,7 @@ export const fetchScenes = (filters?: {
 };
 
 export const useFetchScenes = (
-	filters?: {
-		[key: string]: string;
-	},
+	filters?: Filters,
 	enabled?: boolean,
 ): UseQueryResult<HueScene[]> => {
 	return useQuery<HueScene[], AxiosError>(
