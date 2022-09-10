@@ -8,6 +8,7 @@ import { PaletteMode } from '@mui/material';
 import { useAppSelector } from './state/hooks';
 import { selectTheme } from './state/settingsSlice';
 import { AirConPages } from './pages/AirConPages';
+import { PageNotFound } from './pages/PageNotFound';
 
 const getTheme = (theme: PaletteMode) =>
 	createTheme({
@@ -25,8 +26,8 @@ function App() {
 				<CssBaseline />
 				<BrowserRouter>
 					<Routes>
-						<Route path="/ac*" element={<AirConPages />} />
-						<Route path="*" element={<div>Page not found</div>} />
+						<Route path="/ac/*" element={<AirConPages />} />
+						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>
 			</ThemeProvider>
