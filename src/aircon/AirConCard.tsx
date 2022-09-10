@@ -28,7 +28,7 @@ export const AirConCard = (props: AirConCardProps) => {
 
 	return (
 		<Card>
-			<CardActionArea component={RouterLink} to={`/unit?name=${name}`}>
+			<CardActionArea component={RouterLink} to={`unit?name=${name}`}>
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">
 						{name}

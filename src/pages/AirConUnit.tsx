@@ -11,9 +11,7 @@ import { AirConBeepButton } from '../aircon/AirConBeepButton';
 import { useAppSelector } from '../state/hooks';
 import { selectQuietMode } from '../state/settingsSlice';
 
-export const AirConUnit = (props: { speedDial: React.ReactNode }) => {
-	const { speedDial } = props;
-
+export const AirConUnit = () => {
 	const quietMode = useAppSelector(selectQuietMode);
 
 	const [searchParams] = useSearchParams();
@@ -79,7 +77,6 @@ export const AirConUnit = (props: { speedDial: React.ReactNode }) => {
 					</React.Fragment>
 				)}
 			</Card>
-			{speedDial}
 		</Box>
 	);
 };

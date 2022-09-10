@@ -1,11 +1,9 @@
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import React from 'react';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { useFetchDeviceList } from '../homecontrol/AirconAPI';
 import { AirConCard } from '../aircon/AirConCard';
 
-export const HomePage = (props: { speedDial: React.ReactNode }) => {
-	const { speedDial } = props;
-
+export const AirConHomePage = () => {
 	const {
 		data: deviceList,
 		isFetching: fetchingDeviceList,
@@ -29,7 +27,6 @@ export const HomePage = (props: { speedDial: React.ReactNode }) => {
 			) : (
 				<Typography>No devices registered</Typography>
 			)}
-			{speedDial}
 		</Box>
 	);
 };
