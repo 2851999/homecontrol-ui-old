@@ -3,11 +3,8 @@ import React from 'react';
 import { useFetchDeviceList } from '../homecontrol/AirconAPI';
 import { AirConCard } from '../aircon/AirConCard';
 
-export const HomePage = (props: {
-	speedDial: React.ReactNode;
-	quietMode: boolean;
-}) => {
-	const { speedDial, quietMode } = props;
+export const HomePage = (props: { speedDial: React.ReactNode }) => {
+	const { speedDial } = props;
 
 	const {
 		data: deviceList,
@@ -25,10 +22,7 @@ export const HomePage = (props: {
 				<Grid container rowSpacing={4} columnSpacing={{ xs: 2 }}>
 					{deviceList.map((name, i) => (
 						<Grid item xs={12} md={6} key={i}>
-							<AirConCard
-								name={name}
-								quietMode={quietMode}
-							></AirConCard>
+							<AirConCard name={name}></AirConCard>
 						</Grid>
 					))}
 				</Grid>

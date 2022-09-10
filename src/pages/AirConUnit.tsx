@@ -8,12 +8,13 @@ import { AirConTempSlider } from '../aircon/AirConTempSlider';
 import { AirConFanSpeedSelector } from '../aircon/AirConFanSpeedSelector';
 import { AirConEcoTurboSelector } from '../aircon/AirConEcoTurboSelector';
 import { AirConBeepButton } from '../aircon/AirConBeepButton';
+import { useAppSelector } from '../state/hooks';
+import { selectQuietMode } from '../state/settingsSlice';
 
-export const AirConUnit = (props: {
-	speedDial: React.ReactNode;
-	quietMode: boolean;
-}) => {
-	const { speedDial, quietMode } = props;
+export const AirConUnit = (props: { speedDial: React.ReactNode }) => {
+	const { speedDial } = props;
+
+	const quietMode = useAppSelector(selectQuietMode);
 
 	const [searchParams] = useSearchParams();
 	const name = searchParams.get('name') || '';

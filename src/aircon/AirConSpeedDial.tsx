@@ -1,5 +1,4 @@
 import {
-	PaletteMode,
 	SpeedDial,
 	SpeedDialAction,
 	SpeedDialIcon,
@@ -13,18 +12,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import {
+	selectTheme,
+	toggleTheme,
+	selectQuietMode,
+	toggleQuietMode,
+} from '../state/settingsSlice';
 
 const StyledSpeedDialAction = styled(SpeedDialAction)(({ theme }) => ({
 	backgroundColor: theme.palette.action.hover,
 }));
 
-export const AirConSpeedDial = (props: {
-	themeMode: PaletteMode;
-	quietMode: boolean;
-	toggleTheme: () => void;
-	toggleQuietMode: () => void;
-}) => {
-	const { themeMode, quietMode, toggleTheme, toggleQuietMode } = props;
+export const AirConSpeedDial = () => {
+	const theme = useAppSelector(selectTheme);
+	const quietMode = useAppSelector(selectQuietMode);
+	const dispatch = useAppDispatch();
+
+	const handleToggleTheme = () => {
+		dispatch(toggleTheme());
+	};
+
+	const handleToggleQuietMode = () => {
+		dispatch(toggleQuietMode());
+	};
 
 	return (
 		<React.Fragment>
@@ -45,20 +56,16 @@ export const AirConSpeedDial = (props: {
 				<StyledSpeedDialAction
 					key={'theme'}
 					icon={
-						themeMode == 'light' ? (
-							<DarkModeIcon />
-						) : (
-							<LightModeIcon />
-						)
+						theme == 'light' ? <DarkModeIcon /> : <LightModeIcon />
 					}
 					tooltipTitle={'Toggle theme'}
-					onClick={toggleTheme}
+					onClick={handleToggleTheme}
 				/>
 				<StyledSpeedDialAction
 					key={'quietMode'}
 					icon={quietMode ? <VolumeOffIcon /> : <VolumeUpIcon />}
 					tooltipTitle={'Toggle quiet mode'}
-					onClick={toggleQuietMode}
+					onClick={handleToggleQuietMode}
 				/>
 			</SpeedDial>
 		</React.Fragment>

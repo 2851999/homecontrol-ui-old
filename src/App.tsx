@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AirConUnit } from './pages/AirConUnit';
 import { PaletteMode } from '@mui/material';
 import { AirConSpeedDial } from './aircon/AirConSpeedDial';
+import { useAppSelector } from './state/hooks';
+import { selectTheme } from './state/settingsSlice';
 
 const getTheme = (theme: PaletteMode) =>
 	createTheme({
@@ -17,35 +19,9 @@ const getTheme = (theme: PaletteMode) =>
 	});
 
 function App() {
-	const savedThemeMode = localStorage.getItem('themeMode');
-	const [theme, setTheme] = React.useState(
-		savedThemeMode ? savedThemeMode : 'light',
-	);
+	const theme = useAppSelector(selectTheme);
 
-	const [quietMode, setQuietMode] = React.useState(
-		localStorage.getItem('quietMode') == '1',
-	);
-
-	const handleToggleTheme = () => {
-		const newTheme = theme == 'light' ? 'dark' : 'light';
-		localStorage.setItem('themeMode', newTheme);
-		setTheme(newTheme);
-	};
-
-	const handleToggleQuietMode = () => {
-		const newQuietMode = !quietMode;
-		localStorage.setItem('quietMode', newQuietMode ? '1' : '0');
-		setQuietMode(newQuietMode);
-	};
-
-	const speedDial = (
-		<AirConSpeedDial
-			themeMode={theme as PaletteMode}
-			quietMode={quietMode}
-			toggleTheme={handleToggleTheme}
-			toggleQuietMode={handleToggleQuietMode}
-		/>
-	);
+	const speedDial = <AirConSpeedDial />;
 
 	return (
 		<div className="App">
@@ -55,21 +31,11 @@ function App() {
 					<Routes>
 						<Route
 							path="/"
-							element={
-								<HomePage
-									speedDial={speedDial}
-									quietMode={quietMode}
-								/>
-							}
+							element={<HomePage speedDial={speedDial} />}
 						/>
 						<Route
 							path="/unit"
-							element={
-								<AirConUnit
-									speedDial={speedDial}
-									quietMode={quietMode}
-								/>
-							}
+							element={<AirConUnit speedDial={speedDial} />}
 						/>
 					</Routes>
 				</BrowserRouter>

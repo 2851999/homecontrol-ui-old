@@ -8,14 +8,18 @@ import { useFetchDeviceState } from '../homecontrol/AirconAPI';
 import { Link as RouterLink } from 'react-router-dom';
 import { AirConPowerButton } from './AirConPowerButton';
 import { NightModeButton } from '../homecontrol/NightModeButton';
+import { useAppSelector } from '../state/hooks';
+import { selectQuietMode } from '../state/settingsSlice';
 
 export interface AirConCardProps {
 	name: string;
-	quietMode: boolean;
 }
 
 export const AirConCard = (props: AirConCardProps) => {
-	const { name, quietMode } = props;
+	const { name } = props;
+
+	const quietMode = useAppSelector(selectQuietMode);
+
 	const {
 		data: deviceState,
 		isFetching: fetchingState,
