@@ -9,6 +9,8 @@ import { useAppSelector } from './state/hooks';
 import { selectTheme } from './state/settingsSlice';
 import { AirConPages } from './pages/AirConPages';
 import { PageNotFound } from './pages/PageNotFound';
+import { HomePage } from './pages/HomePage';
+import { SettingsSpeedDial } from './settings/SettingsSpeedDial';
 
 const getTheme = (theme: PaletteMode) =>
 	createTheme({
@@ -26,10 +28,12 @@ function App() {
 				<CssBaseline />
 				<BrowserRouter>
 					<Routes>
-						<Route path="/ac/*" element={<AirConPages />} />
+						<Route index element={<HomePage />} />
+						<Route path="ac/*" element={<AirConPages />} />
 						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>
+				<SettingsSpeedDial />
 			</ThemeProvider>
 		</div>
 	);

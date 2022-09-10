@@ -24,7 +24,7 @@ const StyledSpeedDialAction = styled(SpeedDialAction)(({ theme }) => ({
 	backgroundColor: theme.palette.action.hover,
 }));
 
-export const AirConSpeedDial = () => {
+export const SettingsSpeedDial = () => {
 	const theme = useAppSelector(selectTheme);
 	const quietMode = useAppSelector(selectQuietMode);
 	const dispatch = useAppDispatch();

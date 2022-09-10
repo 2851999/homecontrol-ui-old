@@ -7,8 +7,8 @@ import { PageNotFound } from './PageNotFound';
 export const AirConPages = () => {
 	return (
 		<Routes>
-			<Route index={true} element={<AirConHomePage />} />
-			<Route path="/unit" element={<AirConUnit />} />
+			<Route index element={<AirConHomePage />} />
+			<Route path="unit" element={<AirConUnit />} />
 			<Route path="*" element={<PageNotFound />} />
 		</Routes>
 	);
