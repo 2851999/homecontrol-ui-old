@@ -11,7 +11,11 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Room } from '../homecontrol/HomeAPI';
-import { getModeAsString, useFetchDeviceState } from '../homecontrol/AirconAPI';
+import {
+	getFanSpeedAsString,
+	getModeAsString,
+	useFetchDeviceState,
+} from '../homecontrol/AirconAPI';
 import { AirConTempSlider } from '../aircon/AirConTempSlider';
 import { AirConModeSelector } from '../aircon/AirConModeSelector';
 import { AirConFanSpeedSelector } from '../aircon/AirConFanSpeedSelector';
@@ -19,7 +23,13 @@ import { AirConEcoTurboSelector } from '../aircon/AirConEcoTurboSelector';
 import { AirConPowerButton } from '../aircon/AirConPowerButton';
 import { selectQuietMode } from '../state/settingsSlice';
 import { useAppSelector } from '../state/hooks';
-import { ACModeIcon, PowerIcon } from './StatusIcons';
+import {
+	ACEcoIcon,
+	ACFanModeIcon,
+	ACModeIcon,
+	ACTurboIcon,
+	PowerIcon,
+} from './StatusIcons';
 
 export interface HomeCardRoomACStatusProps {
 	room: Room;
@@ -38,6 +48,12 @@ export const HomeCardRoomACStatus = (props: HomeCardRoomACStatusProps) => {
 
 	const [panelOpen, setPanelOpen] = React.useState<boolean>(false);
 
+	const backgroundColour = deviceState?.power ? 'success.main' : null;
+	const textColour = deviceState?.power
+		? 'success.contrastText'
+		: 'text.primary';
+	const dividerColour = deviceState?.power ? 'success.contrastText' : null;
+
 	if (errorState) return <Typography color="error">Error</Typography>;
 	if (fetchingState) return <LinearProgress />;
 	else
@@ -50,12 +66,42 @@ export const HomeCardRoomACStatus = (props: HomeCardRoomACStatusProps) => {
 					expanded={panelOpen}
 					onChange={() => setPanelOpen(!panelOpen)}
 					elevation={2}
+					sx={{
+						'&:before': {
+							backgroundColor: dividerColour,
+						},
+					}}
 				>
-					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-						<Typography sx={{ marginRight: 2 }}>Aircon</Typography>
+					<AccordionSummary
+						expandIcon={
+							<ExpandMoreIcon sx={{ color: textColour }} />
+						}
+						sx={{
+							backgroundColor: backgroundColour,
+						}}
+					>
+						<Typography
+							sx={{ marginRight: 'auto' }}
+							color={textColour}
+						>
+							Aircon
+						</Typography>
 						<PowerIcon power={deviceState?.power || false} />
-						<ACModeIcon mode={getModeAsString(deviceState?.mode)} />
-						<Typography sx={{ marginLeft: 2 }}>
+						<ACModeIcon
+							mode={getModeAsString(deviceState?.mode)}
+							textColour={textColour}
+						/>
+						<ACFanModeIcon
+							fanSpeed={getFanSpeedAsString(deviceState?.fan)}
+							textColour={textColour}
+						/>
+						{deviceState?.eco && (
+							<ACEcoIcon textColour={textColour} />
+						)}
+						{deviceState?.turbo && (
+							<ACTurboIcon textColour={textColour} />
+						)}
+						<Typography sx={{ marginLeft: 2 }} color={textColour}>
 							{deviceState?.target} &deg;C
 						</Typography>
 					</AccordionSummary>

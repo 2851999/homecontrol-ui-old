@@ -50,6 +50,12 @@ export const HomeCardRoomLightStatus = (
 
 	const [panelOpen, setPanelOpen] = React.useState<boolean>(false);
 
+	const backgroundColour = groupState?.power ? 'success.main' : null;
+	const textColour = groupState?.power
+		? 'success.contrastText'
+		: 'text.primary';
+	const dividerColour = groupState?.power ? 'success.contrastText' : null;
+
 	if (errorGroupState) return <Typography color="error">Error</Typography>;
 	if (fetchingGroupState) return <LinearProgress />;
 	else
@@ -59,9 +65,24 @@ export const HomeCardRoomLightStatus = (
 					expanded={panelOpen}
 					onChange={() => setPanelOpen(!panelOpen)}
 					elevation={2}
+					sx={{
+						'&:before': {
+							backgroundColor: dividerColour,
+						},
+					}}
 				>
-					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-						<Typography sx={{ marginRight: 2 }}>
+					<AccordionSummary
+						expandIcon={
+							<ExpandMoreIcon sx={{ color: textColour }} />
+						}
+						sx={{
+							backgroundColor: backgroundColour,
+						}}
+					>
+						<Typography
+							sx={{ marginRight: 'auto' }}
+							color={textColour}
+						>
 							Lighting
 						</Typography>
 						<PowerIcon power={groupState?.power || false} />
