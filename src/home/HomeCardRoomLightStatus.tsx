@@ -15,9 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Room } from '../homecontrol/HomeAPI';
 import {
-	HueRoom,
 	useFetchGroupedLightState,
-	useFetchRooms,
 	usePutGroupedLightState,
 } from '../homecontrol/HueAPI';
 import { PowerIcon } from './StatusIcons';
@@ -34,29 +32,17 @@ export const HomeCardRoomLightStatus = (
 	const setGroupedLightMutation = usePutGroupedLightState();
 
 	const {
-		data: rooms,
-		isFetching: fetchingRooms,
-		isError: errorRooms,
-	} = useFetchRooms({ 'name[eq]': room.name });
-
-	let room_info: HueRoom | undefined = undefined;
-	if (rooms && rooms[0] != undefined) room_info = rooms[0];
-
-	const {
 		data: groupState,
 		isFetching: fetchingGroupState,
 		isError: errorGroupState,
-	} = useFetchGroupedLightState(
-		room_info?.light_group || '',
-		room_info != undefined,
-	);
+	} = useFetchGroupedLightState(room.hue_light_group);
 
 	const handlePowerSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (groupState && room_info && room_info.light_group) {
+		if (groupState && room.hue_light_group) {
 			groupState.power = event.target.checked || false;
 
 			setGroupedLightMutation.mutate({
-				light_group: room_info.light_group,
+				light_group: room.hue_light_group,
 				state: groupState,
 			});
 		}
@@ -64,9 +50,8 @@ export const HomeCardRoomLightStatus = (
 
 	const [panelOpen, setPanelOpen] = React.useState<boolean>(false);
 
-	if (errorRooms || errorGroupState)
-		return <Typography color="error">Error</Typography>;
-	if (fetchingRooms || fetchingGroupState) return <LinearProgress />;
+	if (errorGroupState) return <Typography color="error">Error</Typography>;
+	if (fetchingGroupState) return <LinearProgress />;
 	else
 		return (
 			<React.Fragment>
