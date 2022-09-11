@@ -55,8 +55,6 @@ export const HomeCardRoomLightStatus = (
 		if (groupState && room_info && room_info.light_group) {
 			groupState.power = event.target.checked || false;
 
-			console.log(room);
-
 			setGroupedLightMutation.mutate({
 				light_group: room_info.light_group,
 				state: groupState,
