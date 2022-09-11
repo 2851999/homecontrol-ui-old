@@ -55,10 +55,7 @@ export const HomePage = () => {
 					<Card>
 						<CardActionArea component={RouterLink} to={`/home`}>
 							<CardContent>
-								<TextIconPair
-									text="Home (Under development)"
-									icon={<HomeIcon />}
-								/>
+								<TextIconPair text="Home" icon={<HomeIcon />} />
 							</CardContent>
 						</CardActionArea>
 					</Card>

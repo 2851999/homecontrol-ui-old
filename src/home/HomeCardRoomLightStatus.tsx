@@ -72,6 +72,7 @@ export const HomeCardRoomLightStatus = (
 								<FormControlLabel
 									control={
 										<Switch
+											color="success"
 											checked={groupState?.power || false}
 											onChange={handlePowerSwitch}
 										/>
