@@ -11,13 +11,26 @@ import { AirConPages } from './pages/AirConPages';
 import { PageNotFound } from './pages/PageNotFound';
 import { HomePage } from './pages/HomePage';
 import { SettingsSpeedDial } from './settings/SettingsSpeedDial';
+import { HomePages } from './pages/HomePages';
 
-const getTheme = (theme: PaletteMode) =>
-	createTheme({
-		palette: {
-			mode: theme,
-		},
-	});
+const getTheme = (theme: PaletteMode) => {
+	if (theme == 'light') {
+		return createTheme({
+			palette: {
+				mode: theme,
+				background: {
+					default: 'rgb(245, 245, 245)',
+				},
+			},
+		});
+	} else {
+		return createTheme({
+			palette: {
+				mode: theme,
+			},
+		});
+	}
+};
 
 function App() {
 	const theme = useAppSelector(selectTheme);
@@ -30,6 +43,7 @@ function App() {
 					<Routes>
 						<Route index element={<HomePage />} />
 						<Route path="ac/*" element={<AirConPages />} />
+						<Route path="home/*" element={<HomePages />} />
 						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>

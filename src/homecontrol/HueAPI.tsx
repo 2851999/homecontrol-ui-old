@@ -30,7 +30,7 @@ export const fetchRooms = (filters?: Filters): Promise<HueRoom[]> => {
 };
 
 export const useFetchRooms = (filters?: Filters): UseQueryResult<HueRoom[]> => {
-	return useQuery<HueRoom[], AxiosError>(['fetchRooms'], () => {
+	return useQuery<HueRoom[], AxiosError>(['fetchRooms', filters], () => {
 		return fetchRooms(filters);
 	});
 };
@@ -61,11 +61,15 @@ export const fetchGroupedLightState = (
 
 export const useFetchGroupedLightState = (
 	light_group: string,
+	enabled?: boolean,
 ): UseQueryResult<GroupedLightState> => {
 	return useQuery<GroupedLightState, AxiosError>(
 		['fetchGroupedLightState', light_group],
 		() => {
 			return fetchGroupedLightState(light_group);
+		},
+		{
+			enabled: enabled,
 		},
 	);
 };

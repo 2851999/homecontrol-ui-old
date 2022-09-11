@@ -31,7 +31,7 @@ export const HomePage = () => {
 	return (
 		<Box sx={{ flexGrow: 1, padding: 4 }}>
 			<Typography variant="h3" sx={{ mb: 4 }}>
-				Home
+				HomeControl
 			</Typography>
 			<Grid
 				container
@@ -53,10 +53,10 @@ export const HomePage = () => {
 				</Grid>
 				<Grid item xs={12} md={7}>
 					<Card>
-						<CardActionArea component={RouterLink} to={`/rooms`}>
+						<CardActionArea component={RouterLink} to={`/home`}>
 							<CardContent>
 								<TextIconPair
-									text="Rooms (Under development)"
+									text="Home (Under development)"
 									icon={<HomeIcon />}
 								/>
 							</CardContent>
