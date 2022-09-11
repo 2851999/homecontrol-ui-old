@@ -6,7 +6,6 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Box,
-	CircularProgress,
 	LinearProgress,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

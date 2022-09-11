@@ -6,7 +6,6 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Box,
-	CircularProgress,
 	FormControlLabel,
 	FormGroup,
 	LinearProgress,
@@ -19,7 +18,6 @@ import {
 	HueRoom,
 	useFetchGroupedLightState,
 	useFetchRooms,
-	useFetchScenes,
 	usePutGroupedLightState,
 } from '../homecontrol/HueAPI';
 import { PowerIcon } from './StatusIcons';
