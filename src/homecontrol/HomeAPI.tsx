@@ -25,3 +25,19 @@ export const useFetchRoomsState = (): UseQueryResult<Room[]> => {
 		return fetchRooms();
 	});
 };
+
+export const fetchOutdoorTemp = (): Promise<string> => {
+	return axios
+		.get(`${API_BASE_URL}/home/outdoor_temp`, {
+			headers: API_HEADER,
+		})
+		.then((response) => {
+			return response.data;
+		});
+};
+
+export const useFetchOutdoorTemp = (): UseQueryResult<string> => {
+	return useQuery<string, AxiosError>(['useFetchOutdoorTemp'], () => {
+		return fetchOutdoorTemp();
+	});
+};
