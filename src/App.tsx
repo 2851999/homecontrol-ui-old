@@ -12,6 +12,7 @@ import { PageNotFound } from './pages/PageNotFound';
 import { HomePage } from './pages/HomePage';
 import { SettingsSpeedDial } from './settings/SettingsSpeedDial';
 import { HomePages } from './pages/HomePages';
+import { MonitoringPage } from './pages/MonitoringPage';
 
 const getTheme = (theme: PaletteMode) => {
 	if (theme == 'light') {
@@ -44,6 +45,10 @@ function App() {
 						<Route index element={<HomePage />} />
 						<Route path="ac/*" element={<AirConPages />} />
 						<Route path="home/*" element={<HomePages />} />
+						<Route
+							path="monitoring/*"
+							element={<MonitoringPage />}
+						/>
 						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>

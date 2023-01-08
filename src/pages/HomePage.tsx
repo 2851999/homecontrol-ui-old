@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HomeIcon from '@mui/icons-material/Home';
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { Link as RouterLink } from 'react-router-dom';
 import { ReactNode } from 'react';
 
@@ -56,6 +57,21 @@ export const HomePage = () => {
 						<CardActionArea component={RouterLink} to={`/home`}>
 							<CardContent>
 								<TextIconPair text="Home" icon={<HomeIcon />} />
+							</CardContent>
+						</CardActionArea>
+					</Card>
+				</Grid>
+				<Grid item xs={12} md={7}>
+					<Card>
+						<CardActionArea
+							component={RouterLink}
+							to={`/monitoring`}
+						>
+							<CardContent>
+								<TextIconPair
+									text="Monitoring"
+									icon={<TimelineIcon />}
+								/>
 							</CardContent>
 						</CardActionArea>
 					</Card>
