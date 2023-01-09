@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
 export type TempDataPoint = {
-	timestamp: string;
+	timestamp: Date;
 	temp: number;
 };
 
@@ -14,7 +14,16 @@ export const fetchTemps = (name: string): Promise<TempDataPoint[]> => {
 			headers: API_HEADER,
 		})
 		.then((response) => {
-			return response.data;
+			// Convert each timestamp to a date object
+			const data: TempDataPoint[] = [];
+
+			for (let i = 0; i < response.data.length; i++) {
+				data.push({
+					timestamp: new Date(response.data[i].timestamp),
+					temp: response.data[i].temp,
+				});
+			}
+			return data;
 		});
 };
 

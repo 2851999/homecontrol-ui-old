@@ -6,22 +6,16 @@ import {
 	Chart,
 	AreaSeries,
 	Title,
+	ZoomAndPan,
+	Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
 import { useFetchTemps } from '../homecontrol/MonitoringAPI';
+import { ArgumentScale, EventTracker } from '@devexpress/dx-react-chart';
+import { scaleTime } from 'd3-scale';
 
 export interface TemperatureGraphProps {
 	deviceName: string;
 }
-
-const getLabelComponent = (
-	xLabels: string[],
-): React.ComponentType<ArgumentAxis.LabelProps> => {
-	return (props: ArgumentAxis.LabelProps) => {
-		return xLabels.indexOf(`${props.text}`) > -1 ? (
-			<ArgumentAxis.Label {...props} />
-		) : null;
-	};
-};
 
 export const TemperatureGraph = (props: TemperatureGraphProps) => {
 	const { deviceName } = props;
@@ -52,7 +46,9 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 				<Chart data={tempsData}>
 					<Title text={`${deviceName} temperature (Celsius)`} />
 
-					<ArgumentAxis labelComponent={getLabelComponent(xLabels)} />
+					<ArgumentScale factory={scaleTime} />
+
+					<ArgumentAxis />
 					<ValueAxis />
 
 					<AreaSeries
@@ -60,6 +56,12 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 						valueField="temp"
 						argumentField="timestamp"
 					/>
+					<ZoomAndPan
+						interactionWithArguments="both"
+						interactionWithValues="both"
+					/>
+					<EventTracker />
+					<Tooltip />
 				</Chart>
 			)}
 		</Paper>
