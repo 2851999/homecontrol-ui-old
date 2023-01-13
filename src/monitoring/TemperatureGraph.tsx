@@ -9,13 +9,26 @@ import {
 	ZoomAndPan,
 	Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
-import { useFetchTemps } from '../homecontrol/MonitoringAPI';
+import { TempDataPoint, useFetchTemps } from '../homecontrol/MonitoringAPI';
 import { ArgumentScale, EventTracker } from '@devexpress/dx-react-chart';
 import { scaleTime } from 'd3-scale';
 
 export interface TemperatureGraphProps {
 	deviceName: string;
 }
+
+const constructTooltipComponent = (tempsData: TempDataPoint[] | undefined) => {
+	return (props: Tooltip.ContentProps) => {
+		let text = props.text;
+		if (tempsData && props.targetItem.point < tempsData.length) {
+			const dataPoint = tempsData[props.targetItem.point];
+			text = `${dataPoint.timestamp.toLocaleDateString()} ${dataPoint.timestamp.toLocaleTimeString()}, ${
+				dataPoint.temp
+			} ℃`;
+		}
+		return <Tooltip.Content text={text} targetItem={props.targetItem} />;
+	};
+};
 
 export const TemperatureGraph = (props: TemperatureGraphProps) => {
 	const { deviceName } = props;
@@ -25,16 +38,6 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 		isFetching: fetchingTempsData,
 		isError: errorTempsData,
 	} = useFetchTemps(deviceName);
-
-	const xLabels = [];
-	const maxData = 8;
-	if (!fetchingTempsData && !errorTempsData && tempsData) {
-		const step = Math.ceil(tempsData.length / maxData);
-
-		for (let i = 0; i < tempsData.length; i += step) {
-			xLabels.push(tempsData[i].timestamp);
-		}
-	}
 
 	return (
 		<Paper sx={{ margin: 4 }}>
@@ -61,7 +64,9 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 						interactionWithValues="both"
 					/>
 					<EventTracker />
-					<Tooltip />
+					<Tooltip
+						contentComponent={constructTooltipComponent(tempsData)}
+					/>
 				</Chart>
 			)}
 		</Paper>
