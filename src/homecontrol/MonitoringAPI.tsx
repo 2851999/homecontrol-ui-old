@@ -8,10 +8,20 @@ export type TempDataPoint = {
 	temp: number;
 };
 
-export const fetchTemps = (name: string): Promise<TempDataPoint[]> => {
+export const fetchTemps = (
+	deviceName: string,
+	count: number | null = null,
+	step: number | null = null,
+): Promise<TempDataPoint[]> => {
+	const params = new URLSearchParams();
+	params.append('device_name', deviceName);
+	if (count) params.append('count', count.toString());
+	if (step) params.append('step', step.toString());
+
 	return axios
-		.get(`${API_BASE_URL}/monitoring/temps?device_name=${name}`, {
+		.get(`${API_BASE_URL}/monitoring/temps`, {
 			headers: API_HEADER,
+			params: params,
 		})
 		.then((response) => {
 			// Convert each timestamp to a date object
@@ -28,12 +38,14 @@ export const fetchTemps = (name: string): Promise<TempDataPoint[]> => {
 };
 
 export const useFetchTemps = (
-	name: string,
+	deviceName: string,
+	count: number | null = null,
+	step: number | null = null,
 ): UseQueryResult<TempDataPoint[]> => {
 	return useQuery<TempDataPoint[], AxiosError>(
-		['useFetchTemps', name],
+		['useFetchTemps', deviceName, count, step],
 		() => {
-			return fetchTemps(name);
+			return fetchTemps(deviceName, count, step);
 		},
 	);
 };
