@@ -7,7 +7,7 @@ import { CardActionArea, CircularProgress } from '@mui/material';
 import { useFetchDeviceState } from '../homecontrol/AirconAPI';
 import { Link as RouterLink } from 'react-router-dom';
 import { AirConPowerButton } from './AirConPowerButton';
-import { NightModeButton } from '../homecontrol/NightModeButton';
+import { NightModeButton } from '../room/NightModeButton';
 import { useAppSelector } from '../state/hooks';
 import { selectQuietMode } from '../state/settingsSlice';
 

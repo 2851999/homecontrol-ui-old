@@ -33,11 +33,11 @@ import {
 } from './StatusIcons';
 import { AirConBeepButton } from '../aircon/AirConBeepButton';
 
-export interface RoomACStatusProps {
+export interface CardRoomACStatusProps {
 	room: Room;
 }
 
-export const CardRoomACStatus = (props: RoomACStatusProps) => {
+export const CardRoomACStatus = (props: CardRoomACStatusProps) => {
 	const { room } = props;
 
 	const quietMode = useAppSelector(selectQuietMode);
