@@ -7,7 +7,6 @@ import { PaletteMode } from '@mui/material';
 
 import { useAppSelector } from './state/hooks';
 import { selectTheme } from './state/settingsSlice';
-import { AirConPages } from './pages/AirConPages';
 import { PageNotFound } from './pages/PageNotFound';
 import { HomePage } from './pages/HomePage';
 import { SettingsSpeedDial } from './settings/SettingsSpeedDial';
@@ -43,7 +42,6 @@ function App() {
 				<BrowserRouter>
 					<Routes>
 						<Route index element={<HomePage />} />
-						<Route path="ac/*" element={<AirConPages />} />
 						<Route path="rooms/*" element={<RoomPages />} />
 						<Route
 							path="monitoring/*"

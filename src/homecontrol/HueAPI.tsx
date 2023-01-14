@@ -1,10 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import {
-	useMutation,
-	useQuery,
-	useQueryClient,
-	UseQueryResult,
-} from 'react-query';
+import { useMutation, useQuery, UseQueryResult } from 'react-query';
 import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
 export type HueRoom = {
@@ -155,8 +150,6 @@ export const putScene = (scene_id: string): Promise<string> => {
 };
 
 export const usePutScene = () => {
-	const queryClient = useQueryClient();
-
 	return useMutation((scene_id: string): Promise<string> => {
 		return putScene(scene_id);
 	});

@@ -6,7 +6,6 @@ import {
 	Grid,
 	Typography,
 } from '@mui/material';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HomeIcon from '@mui/icons-material/Home';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { Link as RouterLink } from 'react-router-dom';
@@ -40,18 +39,6 @@ export const HomePage = () => {
 				columnSpacing={{ xs: 2 }}
 				justifyContent="center"
 			>
-				<Grid item xs={12} md={7}>
-					<Card>
-						<CardActionArea component={RouterLink} to={`/ac`}>
-							<CardContent>
-								<TextIconPair
-									text="Air conditioning"
-									icon={<AcUnitIcon />}
-								/>
-							</CardContent>
-						</CardActionArea>
-					</Card>
-				</Grid>
 				<Grid item xs={12} md={7}>
 					<Card>
 						<CardActionArea component={RouterLink} to={`/rooms`}>
