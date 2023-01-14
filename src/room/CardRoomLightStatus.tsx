@@ -20,13 +20,11 @@ import {
 } from '../homecontrol/HueAPI';
 import { PowerIcon } from './StatusIcons';
 
-export interface HomeCardRoomLightStatusProps {
+export interface CardRoomLightStatusProps {
 	room: Room;
 }
 
-export const HomeCardRoomLightStatus = (
-	props: HomeCardRoomLightStatusProps,
-) => {
+export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 	const { room } = props;
 
 	const setGroupedLightMutation = usePutGroupedLightState();

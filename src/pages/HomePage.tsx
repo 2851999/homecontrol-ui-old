@@ -54,9 +54,12 @@ export const HomePage = () => {
 				</Grid>
 				<Grid item xs={12} md={7}>
 					<Card>
-						<CardActionArea component={RouterLink} to={`/home`}>
+						<CardActionArea component={RouterLink} to={`/rooms`}>
 							<CardContent>
-								<TextIconPair text="Home" icon={<HomeIcon />} />
+								<TextIconPair
+									text="Rooms"
+									icon={<HomeIcon />}
+								/>
 							</CardContent>
 						</CardActionArea>
 					</Card>

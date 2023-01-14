@@ -4,9 +4,9 @@ import {
 	useFetchOutdoorTemp,
 	useFetchRoomsState,
 } from '../homecontrol/HomeAPI';
-import { HomeCard } from '../home/HomeCard';
+import { RoomCard } from '../room/RoomCard';
 
-export const HomeHomePage = () => {
+export const RoomsPage = () => {
 	const {
 		data: roomList,
 		isFetching: fetchingRoomList,
@@ -41,7 +41,7 @@ export const HomeHomePage = () => {
 					<Grid container rowSpacing={2} columnSpacing={{ xs: 2 }}>
 						{roomList.map((room, i) => (
 							<Grid item xs={12} md={6} key={i}>
-								<HomeCard room={room}></HomeCard>
+								<RoomCard room={room}></RoomCard>
 							</Grid>
 						))}
 					</Grid>

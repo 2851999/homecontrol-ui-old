@@ -26,14 +26,14 @@ export const AirConUnit = () => {
 	return (
 		<Box sx={{ flexGrow: 1, padding: 4 }}>
 			<Card>
-				<Typography gutterBottom variant="h5" component="div">
-					{name}
-				</Typography>
 				<AirConBeepButton
 					name={name}
 					state={deviceState}
 					quietMode={quietMode}
 				/>
+				<Typography gutterBottom variant="h5" component="div">
+					{name}
+				</Typography>
 				{errorState ? (
 					<Typography color="error">Error</Typography>
 				) : fetchingState ? (

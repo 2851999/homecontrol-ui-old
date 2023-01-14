@@ -4,14 +4,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Room } from '../homecontrol/HomeAPI';
-import { HomeCardRoomACStatus } from './HomeCardRoomACStatus';
-import { HomeCardRoomLightStatus } from './HomeCardRoomLightStatus';
+import { CardRoomACStatus } from './CardRoomACStatus';
+import { CardRoomLightStatus } from './CardRoomLightStatus';
 
-export interface HomeCardProps {
+export interface RoomCardProps {
 	room: Room;
 }
 
-export const HomeCard = (props: HomeCardProps) => {
+export const RoomCard = (props: RoomCardProps) => {
 	const { room } = props;
 
 	return (
@@ -20,8 +20,8 @@ export const HomeCard = (props: HomeCardProps) => {
 				<Typography gutterBottom variant="h5" component="div">
 					{room.name}
 				</Typography>
-				{room.ac_device_name && <HomeCardRoomACStatus room={room} />}
-				{room.hue_room_id && <HomeCardRoomLightStatus room={room} />}
+				{room.ac_device_name && <CardRoomACStatus room={room} />}
+				{room.hue_room_id && <CardRoomLightStatus room={room} />}
 			</CardContent>
 		</Card>
 	);

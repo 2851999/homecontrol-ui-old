@@ -1,6 +1,6 @@
 import { Backdrop, Grid, IconButton, Typography } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import MoodBadIcon from '@mui/icons-material/MoodBad';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import React from 'react';
 import { ACState, usePutDeviceState } from '../homecontrol/AirconAPI';
 
@@ -53,13 +53,12 @@ export const AirConBeepButton = (props: {
 			</Backdrop>
 			<IconButton
 				sx={(theme) => ({
-					position: 'fixed',
-					top: theme.spacing(4),
+					position: 'absolute',
 					right: theme.spacing(4),
 				})}
 				onClick={handleBeep}
 			>
-				<MoodBadIcon />
+				<CampaignIcon />
 			</IconButton>
 		</React.Fragment>
 	);

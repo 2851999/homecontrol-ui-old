@@ -11,7 +11,7 @@ import { AirConPages } from './pages/AirConPages';
 import { PageNotFound } from './pages/PageNotFound';
 import { HomePage } from './pages/HomePage';
 import { SettingsSpeedDial } from './settings/SettingsSpeedDial';
-import { HomePages } from './pages/HomePages';
+import { RoomPages } from './pages/RoomPages';
 import { MonitoringPage } from './pages/MonitoringPage';
 
 const getTheme = (theme: PaletteMode) => {
@@ -44,7 +44,7 @@ function App() {
 					<Routes>
 						<Route index element={<HomePage />} />
 						<Route path="ac/*" element={<AirConPages />} />
-						<Route path="home/*" element={<HomePages />} />
+						<Route path="rooms/*" element={<RoomPages />} />
 						<Route
 							path="monitoring/*"
 							element={<MonitoringPage />}

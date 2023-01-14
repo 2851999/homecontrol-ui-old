@@ -6,6 +6,7 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Box,
+	Divider,
 	LinearProgress,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -30,12 +31,13 @@ import {
 	ACTurboIcon,
 	PowerIcon,
 } from './StatusIcons';
+import { AirConBeepButton } from '../aircon/AirConBeepButton';
 
-export interface HomeCardRoomACStatusProps {
+export interface RoomACStatusProps {
 	room: Room;
 }
 
-export const HomeCardRoomACStatus = (props: HomeCardRoomACStatusProps) => {
+export const CardRoomACStatus = (props: RoomACStatusProps) => {
 	const { room } = props;
 
 	const quietMode = useAppSelector(selectQuietMode);
@@ -106,7 +108,13 @@ export const HomeCardRoomACStatus = (props: HomeCardRoomACStatusProps) => {
 						</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
+						<Divider />
 						<Box sx={{ mt: 4 }}>
+							<AirConBeepButton
+								name={room.ac_device_name}
+								state={deviceState}
+								quietMode={quietMode}
+							/>
 							<Typography variant="h5">
 								{deviceState?.target} &deg;C
 							</Typography>
