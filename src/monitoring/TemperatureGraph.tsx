@@ -10,7 +10,11 @@ import {
 	Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
 import { TempDataPoint, useFetchTemps } from '../homecontrol/MonitoringAPI';
-import { ArgumentScale, EventTracker } from '@devexpress/dx-react-chart';
+import {
+	Animation,
+	ArgumentScale,
+	EventTracker,
+} from '@devexpress/dx-react-chart';
 import { scaleTime } from 'd3-scale';
 
 export interface TemperatureGraphProps {
@@ -47,12 +51,13 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 				<CircularProgress />
 			) : (
 				<Chart data={tempsData}>
-					<Title text={`${deviceName} temperature (Celsius)`} />
+					<Title text={`${deviceName} temperature (℃)`} />
 
 					<ArgumentScale factory={scaleTime} />
 
 					<ArgumentAxis />
 					<ValueAxis />
+					<Animation />
 
 					<AreaSeries
 						name="line"
