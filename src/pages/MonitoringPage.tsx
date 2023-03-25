@@ -59,16 +59,16 @@ export const MonitoringPage = () => {
 						{/* {deviceList.map((name) => (
 						<TemperatureGraph deviceName={name} />
 					))} */}
+						<DatePicker
+							label="Start date"
+							value={startDate}
+							onChange={(newValue) => setStartDate(newValue)}
+							sx={{ marginBottom: 2 }}
+						/>
 					</Box>
 				) : (
 					<Typography>No devices registered</Typography>
 				)}
-				<DatePicker
-					label="Start date"
-					value={startDate}
-					onChange={(newValue) => setStartDate(newValue)}
-					sx={{ marginBottom: 2 }}
-				/>
 			</LocalizationProvider>
 		</Box>
 	);
