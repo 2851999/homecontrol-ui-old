@@ -19,6 +19,7 @@ import { scaleTime } from 'd3-scale';
 
 export interface TemperatureGraphProps {
 	deviceName: string;
+	startDate?: Date;
 }
 
 const constructTooltipComponent = (tempsData: TempDataPoint[] | undefined) => {
@@ -35,13 +36,13 @@ const constructTooltipComponent = (tempsData: TempDataPoint[] | undefined) => {
 };
 
 export const TemperatureGraph = (props: TemperatureGraphProps) => {
-	const { deviceName } = props;
+	const { deviceName, startDate } = props;
 
 	const {
 		data: tempsData,
 		isFetching: fetchingTempsData,
 		isError: errorTempsData,
-	} = useFetchTemps(deviceName, undefined, undefined, undefined, undefined);
+	} = useFetchTemps(deviceName, undefined, undefined, startDate, undefined);
 
 	return (
 		<Paper sx={{ margin: 4 }}>

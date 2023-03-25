@@ -11,7 +11,7 @@ export type TempDataPoint = {
 const convertDateTime = (datetime: Date): string => {
 	return `${datetime.getFullYear()}-${
 		datetime.getMonth() + 1
-	}-${datetime.getDay()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
+	}-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
 };
 
 export const fetchTemps = (
