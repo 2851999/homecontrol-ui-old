@@ -41,7 +41,7 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 		data: tempsData,
 		isFetching: fetchingTempsData,
 		isError: errorTempsData,
-	} = useFetchTemps(deviceName);
+	} = useFetchTemps(deviceName, undefined, undefined, undefined, undefined);
 
 	return (
 		<Paper sx={{ margin: 4 }}>

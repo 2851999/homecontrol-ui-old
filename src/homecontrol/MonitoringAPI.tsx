@@ -8,15 +8,25 @@ export type TempDataPoint = {
 	temp: number;
 };
 
+const convertDateTime = (datetime: Date): string => {
+	return `${datetime.getFullYear()}-${
+		datetime.getMonth() + 1
+	}-${datetime.getDay()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
+};
+
 export const fetchTemps = (
 	deviceName: string,
-	count: number | null = null,
-	step: number | null = null,
+	count?: number,
+	step?: number,
+	start?: Date,
+	end?: Date,
 ): Promise<TempDataPoint[]> => {
 	const params = new URLSearchParams();
 	params.append('device_name', deviceName);
 	if (count) params.append('count', count.toString());
 	if (step) params.append('step', step.toString());
+	if (start) params.append('start', convertDateTime(start));
+	if (end) params.append('end', convertDateTime(end));
 
 	return axios
 		.get(`${API_BASE_URL}/monitoring/temps`, {
@@ -39,13 +49,15 @@ export const fetchTemps = (
 
 export const useFetchTemps = (
 	deviceName: string,
-	count: number | null = null,
-	step: number | null = null,
+	count?: number,
+	step?: number,
+	start?: Date,
+	end?: Date,
 ): UseQueryResult<TempDataPoint[]> => {
 	return useQuery<TempDataPoint[], AxiosError>(
-		['useFetchTemps', deviceName, count, step],
+		['useFetchTemps', deviceName, count, step, start, end],
 		() => {
-			return fetchTemps(deviceName, count, step);
+			return fetchTemps(deviceName, count, step, start, end);
 		},
 	);
 };
