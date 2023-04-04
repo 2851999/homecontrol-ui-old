@@ -6,7 +6,7 @@ export type HueRoom = {
 	identifier: string;
 	name: string;
 	light_group: string | null;
-	devices: string[];
+	lights: string[];
 };
 
 export type Filters = { [key: string]: string };
@@ -25,6 +25,7 @@ export const fetchRooms = (filters?: Filters): Promise<HueRoom[]> => {
 			params: params,
 		})
 		.then((response) => {
+			console.log(response.data);
 			return response.data;
 		});
 };
