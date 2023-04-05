@@ -25,7 +25,6 @@ export const fetchRooms = (filters?: Filters): Promise<HueRoom[]> => {
 			params: params,
 		})
 		.then((response) => {
-			console.log(response.data);
 			return response.data;
 		});
 };

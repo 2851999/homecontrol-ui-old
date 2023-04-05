@@ -8,6 +8,7 @@ export type Room = {
 	ac_device_name: string;
 	hue_room_id: string;
 	hue_light_group: string;
+	hue_lights: string[];
 };
 
 export const fetchRooms = (): Promise<Room[]> => {

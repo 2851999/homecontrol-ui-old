@@ -30,7 +30,7 @@ export const CardRoomPresets = (props: CardRoomPresetsProps) => {
 		return (
 			<React.Fragment>
 				<NightModeButton
-					name={room.ac_device_name}
+					room={room}
 					state={deviceState}
 					quietMode={quietMode}
 				/>

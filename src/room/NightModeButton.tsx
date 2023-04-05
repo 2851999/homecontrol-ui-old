@@ -7,39 +7,27 @@ import {
 	usePutDeviceState,
 } from '../homecontrol/AirconAPI';
 
-import {
-	useFetchRooms,
-	useFetchScenes,
-	usePutScene,
-} from '../homecontrol/HueAPI';
+import { useFetchScenes, usePutScene } from '../homecontrol/HueAPI';
+import { Room } from '../homecontrol/HomeAPI';
 
 export const NightModeButton = (props: {
-	name: string;
+	room: Room;
 	state: ACState | undefined;
 	quietMode: boolean;
 }) => {
-	const { name, state, quietMode } = props;
+	const { room, state, quietMode } = props;
 
-	const setDeviceStateMutation = usePutDeviceState(name);
+	const setDeviceStateMutation = usePutDeviceState(room.ac_device_name);
 	const setSceneMutation = usePutScene();
-
-	const {
-		data: rooms,
-		isFetching: fetchingRooms,
-		isError: errorRooms,
-	} = useFetchRooms({ 'name[eq]': name });
-
-	let room_id = undefined;
-	if (rooms && rooms[0] != undefined) room_id = rooms[0].identifier;
 
 	const {
 		data: scenes,
 		isFetching: fetchingScenes,
 		isError: errorScenes,
-	} = useFetchScenes(
-		{ 'room[eq]': room_id || '', 'name[eq]': 'Night' },
-		room_id != undefined,
-	);
+	} = useFetchScenes({
+		'room[eq]': room.hue_room_id || '',
+		'name[eq]': 'Night',
+	});
 
 	const handleClick = () => {
 		if (state) {
@@ -51,15 +39,7 @@ export const NightModeButton = (props: {
 			state.prompt_tone = !quietMode;
 			setDeviceStateMutation.mutate(state);
 
-			if (
-				!fetchingRooms &&
-				!errorRooms &&
-				rooms &&
-				!fetchingScenes &&
-				!errorScenes &&
-				scenes
-			) {
-				console.log(scenes);
+			if (!fetchingScenes && !errorScenes && scenes) {
 				if (scenes.length > 0)
 					// Assume first is right
 					setSceneMutation.mutate(scenes[0].identifier);
