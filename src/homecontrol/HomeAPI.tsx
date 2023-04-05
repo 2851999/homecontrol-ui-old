@@ -5,10 +5,10 @@ import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
 export type Room = {
 	name: string;
-	ac_device_name: string;
-	hue_room_id: string;
-	hue_light_group: string;
-	hue_lights: string[];
+	ac_device_name?: string;
+	hue_room_id?: string;
+	hue_light_group?: string;
+	hue_lights?: string[];
 };
 
 export const fetchRooms = (): Promise<Room[]> => {

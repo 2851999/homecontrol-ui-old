@@ -1,55 +1,81 @@
-import { IconButton } from '@mui/material';
+import { IconButton, LinearProgress, Typography } from '@mui/material';
 import BedIcon from '@mui/icons-material/Bed';
 
 import {
-	ACState,
 	getModeFromString,
+	useFetchDeviceState,
 	usePutDeviceState,
 } from '../homecontrol/AirconAPI';
 
 import { useFetchScenes, usePutScene } from '../homecontrol/HueAPI';
 import { Room } from '../homecontrol/HomeAPI';
 
-export const NightModeButton = (props: {
-	room: Room;
-	state: ACState | undefined;
-	quietMode: boolean;
-}) => {
-	const { room, state, quietMode } = props;
+export const NightModeButton = (props: { room: Room; quietMode: boolean }) => {
+	const { room, quietMode } = props;
 
-	const setDeviceStateMutation = usePutDeviceState(room.ac_device_name);
-	const setSceneMutation = usePutScene();
+	let acAssignFunc: (() => void) | undefined = undefined;
+	let hueAssignFunc: (() => void) | undefined = undefined;
+	let fetchingState = false;
+	let errorState = false;
 
-	const {
-		data: scenes,
-		isFetching: fetchingScenes,
-		isError: errorScenes,
-	} = useFetchScenes({
-		'room[eq]': room.hue_room_id || '',
-		'name[eq]': 'Night',
-	});
+	if (room.ac_device_name) {
+		const {
+			data: acDeviceState,
+			isFetching: fetchingACState,
+			isError: acErrorState,
+		} = useFetchDeviceState(room.ac_device_name);
+
+		const setDeviceStateMutation = usePutDeviceState(room.ac_device_name);
+
+		acAssignFunc = () => {
+			if (acDeviceState) {
+				acDeviceState.power = true;
+				acDeviceState.mode = getModeFromString('cool');
+				acDeviceState.eco = false;
+				acDeviceState.turbo = false;
+				acDeviceState.target = 18;
+				acDeviceState.prompt_tone = !quietMode;
+				setDeviceStateMutation.mutate(acDeviceState);
+			}
+		};
+
+		fetchingState = fetchingACState;
+		errorState = acErrorState;
+	}
+
+	if (room.hue_room_id) {
+		const {
+			data: scenes,
+			isFetching: fetchingScenes,
+			isError: errorScenes,
+		} = useFetchScenes({
+			'room[eq]': room.hue_room_id || '',
+			'name[eq]': 'Night',
+		});
+
+		const setSceneMutation = usePutScene();
+
+		hueAssignFunc = () => {
+			if (scenes && scenes.length > 0)
+				// Assume first is right
+				setSceneMutation.mutate(scenes[0].identifier);
+		};
+
+		fetchingState = fetchingState || fetchingScenes;
+		errorState = errorState || errorScenes;
+	}
 
 	const handleClick = () => {
-		if (state) {
-			state.power = true;
-			state.mode = getModeFromString('cool');
-			state.eco = false;
-			state.turbo = false;
-			state.target = 18;
-			state.prompt_tone = !quietMode;
-			setDeviceStateMutation.mutate(state);
-
-			if (!fetchingScenes && !errorScenes && scenes) {
-				if (scenes.length > 0)
-					// Assume first is right
-					setSceneMutation.mutate(scenes[0].identifier);
-			}
-		}
+		if (acAssignFunc) acAssignFunc();
+		if (hueAssignFunc) hueAssignFunc();
 	};
 
-	return (
-		<IconButton onClick={handleClick}>
-			<BedIcon />
-		</IconButton>
-	);
+	if (errorState) return <Typography color="error">Error</Typography>;
+	if (fetchingState) return <LinearProgress />;
+	else
+		return (
+			<IconButton onClick={handleClick}>
+				<BedIcon />
+			</IconButton>
+		);
 };
