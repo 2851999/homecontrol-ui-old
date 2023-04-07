@@ -6,6 +6,7 @@ import {
 	AccordionDetails,
 	AccordionSummary,
 	Box,
+	Divider,
 	FormControlLabel,
 	FormGroup,
 	LinearProgress,
@@ -101,7 +102,9 @@ export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 									}
 									label="Power"
 								/>
+								<Divider />
 								{room.hue_lights &&
+									room.hue_light_group &&
 									room.hue_lights.map((lightID) => (
 										<CardRoomLightToggle
 											lightID={lightID}

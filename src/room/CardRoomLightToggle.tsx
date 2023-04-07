@@ -1,7 +1,12 @@
 import React from 'react';
 
 import Typography from '@mui/material/Typography';
-import { FormControlLabel, LinearProgress, Switch } from '@mui/material';
+import {
+	CircularProgress,
+	FormControlLabel,
+	LinearProgress,
+	Switch,
+} from '@mui/material';
 
 import { useFetchLightState, usePutLightState } from '../homecontrol/HueAPI';
 
@@ -32,7 +37,7 @@ export const CardRoomLightToggle = (props: CardRoomLightToggleProps) => {
 	};
 
 	if (errorLightState) return <Typography color="error">Error</Typography>;
-	if (fetchingLightState) return <LinearProgress />;
+	if (fetchingLightState) return <CircularProgress />;
 	else
 		return (
 			<FormControlLabel
