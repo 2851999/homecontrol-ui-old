@@ -19,6 +19,7 @@ import {
 	usePutGroupedLightState,
 } from '../homecontrol/HueAPI';
 import { PowerIcon } from './StatusIcons';
+import { CardRoomLightToggle } from './CardRoomLightToggle';
 
 export interface CardRoomLightStatusProps {
 	room: Room;
@@ -40,7 +41,7 @@ export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 			groupState.power = event.target.checked || false;
 
 			setGroupedLightMutation.mutate({
-				light_group: room.hue_light_group,
+				lightGroupID: room.hue_light_group,
 				state: groupState,
 			});
 		}
@@ -98,6 +99,12 @@ export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 									}
 									label="Power"
 								/>
+								{room.hue_lights &&
+									room.hue_lights.map((lightID) => (
+										<CardRoomLightToggle
+											lightID={lightID}
+										/>
+									))}
 							</FormGroup>
 						</Box>
 					</AccordionDetails>
