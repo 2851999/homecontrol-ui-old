@@ -1,12 +1,7 @@
 import React from 'react';
 
 import Typography from '@mui/material/Typography';
-import {
-	CircularProgress,
-	FormControlLabel,
-	LinearProgress,
-	Switch,
-} from '@mui/material';
+import { CircularProgress, FormControlLabel, Switch } from '@mui/material';
 
 import { useFetchLightState, usePutLightState } from '../homecontrol/HueAPI';
 
