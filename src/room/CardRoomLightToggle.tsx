@@ -7,12 +7,13 @@ import { useFetchLightState, usePutLightState } from '../homecontrol/HueAPI';
 
 export interface CardRoomLightToggleProps {
 	lightID: string;
+	lightGroupID: string;
 }
 
 export const CardRoomLightToggle = (props: CardRoomLightToggleProps) => {
-	const { lightID } = props;
+	const { lightID, lightGroupID } = props;
 
-	const setLightMutation = usePutLightState();
+	const setLightMutation = usePutLightState(lightID, lightGroupID);
 
 	const {
 		data: lightState,
@@ -25,7 +26,6 @@ export const CardRoomLightToggle = (props: CardRoomLightToggleProps) => {
 			lightState.power = event.target.checked || false;
 
 			setLightMutation.mutate({
-				lightID: lightID,
 				state: lightState,
 			});
 		}

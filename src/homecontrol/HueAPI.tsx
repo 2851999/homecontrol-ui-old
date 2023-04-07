@@ -1,5 +1,10 @@
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQuery, UseQueryResult } from 'react-query';
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+	UseQueryResult,
+} from 'react-query';
 import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
 export type HueRoom = {
@@ -90,13 +95,20 @@ export const putLightState = (
 		});
 };
 
-export const usePutLightState = () => {
+export const usePutLightState = (lightID: string, lightGroupID: string) => {
+	const queryClient = useQueryClient();
+
 	return useMutation(
-		(variables: {
-			lightID: string;
-			state: LightState;
-		}): Promise<string> => {
-			return putLightState(variables.lightID, variables.state);
+		(variables: { state: LightState }): Promise<string> => {
+			return putLightState(lightID, variables.state);
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries([
+					'fetchGroupedLightState',
+					lightGroupID,
+				]);
+			},
 		},
 	);
 };
@@ -152,16 +164,22 @@ export const putGroupedLightState = (
 		});
 };
 
-export const usePutGroupedLightState = () => {
+export const usePutGroupedLightState = (
+	lightGroupID: string,
+	lightsIDs: string,
+) => {
+	const queryClient = useQueryClient();
+
 	return useMutation(
-		(variables: {
-			lightGroupID: string;
-			state: GroupedLightState;
-		}): Promise<string> => {
-			return putGroupedLightState(
-				variables.lightGroupID,
-				variables.state,
-			);
+		(variables: { state: GroupedLightState }): Promise<string> => {
+			return putGroupedLightState(lightGroupID, variables.state);
+		},
+		{
+			onSuccess: () => {
+				lightsIDs.forEach((lightID) =>
+					queryClient.invalidateQueries(['fetchLightState', lightID]),
+				);
+			},
 		},
 	);
 };

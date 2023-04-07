@@ -28,7 +28,10 @@ export interface CardRoomLightStatusProps {
 export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 	const { room } = props;
 
-	const setGroupedLightMutation = usePutGroupedLightState();
+	const setGroupedLightMutation = usePutGroupedLightState(
+		room.hue_light_group,
+		room.hue_lights,
+	);
 
 	const {
 		data: groupState,
@@ -41,7 +44,6 @@ export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 			groupState.power = event.target.checked || false;
 
 			setGroupedLightMutation.mutate({
-				lightGroupID: room.hue_light_group,
 				state: groupState,
 			});
 		}
@@ -103,6 +105,7 @@ export const CardRoomLightStatus = (props: CardRoomLightStatusProps) => {
 									room.hue_lights.map((lightID) => (
 										<CardRoomLightToggle
 											lightID={lightID}
+											lightGroupID={room.hue_light_group}
 										/>
 									))}
 							</FormGroup>
