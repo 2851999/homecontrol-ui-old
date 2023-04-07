@@ -43,8 +43,8 @@ export const SettingsSpeedDial = () => {
 				ariaLabel="Speed dial"
 				sx={(theme) => ({
 					position: 'fixed',
-					bottom: theme.spacing(4),
-					right: theme.spacing(4),
+					bottom: theme.spacing(5),
+					right: theme.spacing(2),
 				})}
 				icon={
 					<SpeedDialIcon

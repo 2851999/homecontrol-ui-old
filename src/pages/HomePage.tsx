@@ -9,7 +9,8 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { Link as RouterLink } from 'react-router-dom';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import { Footer } from '../footer/Footer';
 
 export const TextIconPair = (props: { text: string; icon: ReactNode }) => {
 	return (
@@ -29,44 +30,50 @@ export const TextIconPair = (props: { text: string; icon: ReactNode }) => {
 
 export const HomePage = () => {
 	return (
-		<Box sx={{ flexGrow: 1, padding: 4 }}>
-			<Typography variant="h3" sx={{ mb: 4 }}>
-				HomeControl
-			</Typography>
-			<Grid
-				container
-				rowSpacing={4}
-				columnSpacing={{ xs: 2 }}
-				justifyContent="center"
-			>
-				<Grid item xs={12} md={7}>
-					<Card>
-						<CardActionArea component={RouterLink} to={`/rooms`}>
-							<CardContent>
-								<TextIconPair
-									text="Rooms"
-									icon={<HomeIcon />}
-								/>
-							</CardContent>
-						</CardActionArea>
-					</Card>
+		<React.Fragment>
+			<Box sx={{ flexGrow: 1, padding: 4 }}>
+				<Typography variant="h3" sx={{ mb: 4 }}>
+					HomeControl
+				</Typography>
+				<Grid
+					container
+					rowSpacing={4}
+					columnSpacing={{ xs: 2 }}
+					justifyContent="center"
+				>
+					<Grid item xs={12} md={7}>
+						<Card>
+							<CardActionArea
+								component={RouterLink}
+								to={`/rooms`}
+							>
+								<CardContent>
+									<TextIconPair
+										text="Rooms"
+										icon={<HomeIcon />}
+									/>
+								</CardContent>
+							</CardActionArea>
+						</Card>
+					</Grid>
+					<Grid item xs={12} md={7}>
+						<Card>
+							<CardActionArea
+								component={RouterLink}
+								to={`/monitoring`}
+							>
+								<CardContent>
+									<TextIconPair
+										text="Monitoring"
+										icon={<TimelineIcon />}
+									/>
+								</CardContent>
+							</CardActionArea>
+						</Card>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} md={7}>
-					<Card>
-						<CardActionArea
-							component={RouterLink}
-							to={`/monitoring`}
-						>
-							<CardContent>
-								<TextIconPair
-									text="Monitoring"
-									icon={<TimelineIcon />}
-								/>
-							</CardContent>
-						</CardActionArea>
-					</Card>
-				</Grid>
-			</Grid>
-		</Box>
+			</Box>
+			<Footer />
+		</React.Fragment>
 	);
 };
