@@ -1,38 +1,43 @@
 import React from 'react';
 import { CircularProgress, Paper, Typography } from '@mui/material';
+import { useFetchTemps } from '../homecontrol/MonitoringAPI';
 import {
-	ArgumentAxis,
-	ValueAxis,
-	Chart,
-	AreaSeries,
-	Title,
-	ZoomAndPan,
+	Area,
+	AreaChart,
+	CartesianGrid,
+	ResponsiveContainer,
 	Tooltip,
-} from '@devexpress/dx-react-chart-material-ui';
-import { TempDataPoint, useFetchTemps } from '../homecontrol/MonitoringAPI';
+	TooltipProps,
+	XAxis,
+	YAxis,
+} from 'recharts';
 import {
-	Animation,
-	ArgumentScale,
-	EventTracker,
-} from '@devexpress/dx-react-chart';
-import { scaleTime } from 'd3-scale';
+	NameType,
+	ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
 
 export interface TemperatureGraphProps {
 	deviceName: string;
 	startDate?: Date;
 }
 
-const constructTooltipComponent = (tempsData: TempDataPoint[] | undefined) => {
-	return (props: Tooltip.ContentProps) => {
-		let text = props.text;
-		if (tempsData && props.targetItem.point < tempsData.length) {
-			const dataPoint = tempsData[props.targetItem.point];
-			text = `${dataPoint.timestamp.toLocaleDateString()} ${dataPoint.timestamp.toLocaleTimeString()}, ${
-				dataPoint.temp
-			} ℃`;
-		}
-		return <Tooltip.Content text={text} targetItem={props.targetItem} />;
-	};
+const timestampFormatter = (timestamp: Date) => {
+	return timestamp.toLocaleString();
+};
+
+const CustomTooltip = ({
+	active,
+	payload,
+}: TooltipProps<ValueType, NameType>) => {
+	if (active && payload && payload.length) {
+		return (
+			<div className="custom-tooltip">
+				<p className="label">{`${timestampFormatter(
+					payload[0].payload.timestamp,
+				)} : ${payload[0].value} ℃`}</p>
+			</div>
+		);
+	}
 };
 
 export const TemperatureGraph = (props: TemperatureGraphProps) => {
@@ -45,35 +50,52 @@ export const TemperatureGraph = (props: TemperatureGraphProps) => {
 	} = useFetchTemps(deviceName, undefined, undefined, startDate, undefined);
 
 	return (
-		<Paper sx={{ margin: 4 }}>
+		<Paper
+			sx={{
+				margin: 4,
+				width: (theme) => `calc(100%-${theme.spacing(4)}px)`,
+				height: '600px',
+			}}
+		>
+			<Typography
+				variant="h5"
+				sx={{ padding: 2 }}
+			>{`${deviceName} temperature (℃)`}</Typography>
 			{errorTempsData ? (
 				<Typography color="error">Error</Typography>
 			) : fetchingTempsData ? (
 				<CircularProgress />
 			) : (
-				<Chart data={tempsData}>
-					<Title text={`${deviceName} temperature (℃)`} />
-
-					<ArgumentScale factory={scaleTime} />
-
-					<ArgumentAxis />
-					<ValueAxis />
-					<Animation />
-
-					<AreaSeries
-						name="line"
-						valueField="temp"
-						argumentField="timestamp"
-					/>
-					<ZoomAndPan
-						interactionWithArguments="both"
-						interactionWithValues="both"
-					/>
-					<EventTracker />
-					<Tooltip
-						contentComponent={constructTooltipComponent(tempsData)}
-					/>
-				</Chart>
+				<ResponsiveContainer width="95%" height="90%">
+					<AreaChart
+						width={500}
+						height={300}
+						data={tempsData}
+						margin={{
+							top: 5,
+							right: 30,
+							left: 20,
+							bottom: 5,
+						}}
+					>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis
+							dataKey="timestamp"
+							tickFormatter={timestampFormatter}
+						/>
+						<YAxis />
+						<Tooltip
+							content={CustomTooltip}
+							wrapperStyle={{ outline: 'none' }}
+						/>
+						<Area
+							type="monotone"
+							dataKey="temp"
+							stroke="#8884d8"
+							fill="#8884d8"
+						/>
+					</AreaChart>
+				</ResponsiveContainer>
 			)}
 		</Paper>
 	);
