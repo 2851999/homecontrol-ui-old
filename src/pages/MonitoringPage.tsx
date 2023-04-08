@@ -5,7 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import { TemperatureGraph } from '../monitoring/TemperatureGraphOld';
+import { TemperatureGraph } from '../monitoring/TemperatureGraph';
 import { useFetchDeviceList } from '../homecontrol/AirconAPI';
 
 const calcDateAgo = (days: number) => {
