@@ -21,9 +21,9 @@ export const MonitoringPage = () => {
 		isError: errorDeviceList,
 	} = useFetchDeviceList();
 
-	// Default to the last 90 days
+	// Default to the last 30 days
 	const [startDate, setStartDate] = useState<Date | undefined>(
-		calcDateAgo(90),
+		calcDateAgo(30),
 	);
 
 	return (
