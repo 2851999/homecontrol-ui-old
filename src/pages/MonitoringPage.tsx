@@ -5,7 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import { TemperatureGraph } from '../monitoring/TemperatureGraph';
+import { TemperatureGraph } from '../monitoring/TemperatureGraphOld';
 import { useFetchDeviceList } from '../homecontrol/AirconAPI';
 
 const calcDateAgo = (days: number) => {
@@ -56,9 +56,6 @@ export const MonitoringPage = () => {
 								</Grid>
 							))}
 						</Grid>
-						{/* {deviceList.map((name) => (
-						<TemperatureGraph deviceName={name} />
-					))} */}
 						<DatePicker
 							label="Start date"
 							value={startDate}
