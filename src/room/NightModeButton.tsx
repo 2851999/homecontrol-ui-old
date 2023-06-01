@@ -9,6 +9,7 @@ import {
 
 import { useFetchScenes, usePutScene } from '../homecontrol/HueAPI';
 import { Room } from '../homecontrol/HomeAPI';
+import { usePutIR } from '../homecontrol/BroadlinkAPI';
 
 export const NightModeButton = (props: { room: Room; quietMode: boolean }) => {
 	const { room, quietMode } = props;
@@ -65,9 +66,12 @@ export const NightModeButton = (props: { room: Room; quietMode: boolean }) => {
 		errorState = errorState || errorScenes;
 	}
 
+	const setDeviceIR = usePutIR(room.name);
+
 	const handleClick = () => {
 		if (acAssignFunc) acAssignFunc();
 		if (hueAssignFunc) hueAssignFunc();
+		setDeviceIR.mutate('ac_display_toggle');
 	};
 
 	if (errorState) return <Typography color="error">Error</Typography>;
