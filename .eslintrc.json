@@ -15,6 +15,8 @@
 	},
 	"plugins": ["@typescript-eslint"],
 	"rules": {
-		"@typescript-eslint/no-inferrable-types": 0
+		"@typescript-eslint/no-inferrable-types": 0,
+		//Hopefully only temporary - its breaking in many places when functions aren't empty
+		"@typescript-eslint/no-empty-function": "off"
 	}
 }
