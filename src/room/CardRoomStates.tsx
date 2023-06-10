@@ -18,10 +18,10 @@ export interface CardRoomStateButtonProps {
 export const CardRoomStateButton = (props: CardRoomStateButtonProps) => {
 	const {room, roomState} = props;
 
-	const putRoomStateMutation = usePutRoomState(room);
+	const putRoomStateMutation = usePutRoomState(room, roomState);
 
 	const handleClick = () => {
-		putRoomStateMutation.mutate(roomState.state_id)
+		putRoomStateMutation.mutate()
 	};
 
 	return <Tooltip title={roomState.name}><IconButton onClick={handleClick}>

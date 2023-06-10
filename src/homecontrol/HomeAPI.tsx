@@ -16,11 +16,11 @@ export type RoomState = {
 	name: string;
 	room_name: string;
 	icon: string;
-	ac_device_name: string;
-	ac_state_id: string;
-	hue_scene_id: string;
-	broadlink_device_name: string;
-	broadlink_actions: string[];
+	ac_device_name?: string;
+	ac_state_id?: string;
+	hue_scene_id?: string;
+	broadlink_device_name?: string;
+	broadlink_actions?: string[];
 };
 
 export const fetchRooms = (): Promise<Room[]> => {
@@ -83,23 +83,26 @@ export const putRoomState = (
 		});
 };
 
-export const usePutRoomState = (room: Room) => {
+export const usePutRoomState = (room: Room, state: RoomState) => {
 	const queryClient = useQueryClient();
 
 	return useMutation(
-		(stateID: string): Promise<RoomState> => {
-			return putRoomState(stateID);
+		(): Promise<RoomState> => {
+			return putRoomState(state.state_id);
 		},
 		{
 			onSuccess: () => {
-				// Invalidate AC queries
-				queryClient.invalidateQueries(['fetchDeviceState', room.ac_device_name]);
-				// Invalidate light queries
-				queryClient.invalidateQueries(['fetchGroupedLightState', room.hue_light_group]);
-				if (room.hue_lights) {
-					room.hue_lights.forEach((lightID) =>
-						queryClient.invalidateQueries(['fetchLightState', lightID]),
-					);
+				if (state.ac_device_name && state.ac_state_id)
+					// Invalidate AC queries
+					queryClient.invalidateQueries(['fetchDeviceState', room.ac_device_name]);
+				if (state.hue_scene_id) {
+					// Invalidate light queries
+					queryClient.invalidateQueries(['fetchGroupedLightState', room.hue_light_group]);
+					if (room.hue_lights) {
+						room.hue_lights.forEach((lightID) =>
+							queryClient.invalidateQueries(['fetchLightState', lightID]),
+						);
+					}
 				}
 			},
 		},
