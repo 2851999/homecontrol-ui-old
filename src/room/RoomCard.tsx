@@ -23,7 +23,7 @@ export const RoomCard = (props: RoomCardProps) => {
 				</Typography>
 				{room.ac_device_name && <CardRoomACStatus room={room} />}
 				{room.hue_room_id && <CardRoomLightStatus room={room} />}
-				<CardRoomStates roomName={room.name}/>
+				<CardRoomStates room={room}/>
 			</CardContent>
 		</Card>
 	);

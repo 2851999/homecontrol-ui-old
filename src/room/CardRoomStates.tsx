@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Typography from '@mui/material/Typography';
-import { RoomState, useFetchRoomStates, usePutRoomState } from '../homecontrol/HomeAPI';
+import { Room, RoomState, useFetchRoomStates, usePutRoomState } from '../homecontrol/HomeAPI';
 import LinearProgress from '@mui/material/LinearProgress';
 import { IconButton, Tooltip } from '@mui/material';
 import BedIcon from '@mui/icons-material/Bed';
@@ -11,13 +11,14 @@ const ICONS = {
 }
 
 export interface CardRoomStateButtonProps {
+	room: Room,
 	roomState: RoomState;
 }
 
 export const CardRoomStateButton = (props: CardRoomStateButtonProps) => {
-	const {roomState} = props;
+	const {room, roomState} = props;
 
-	const putRoomStateMutation = usePutRoomState();
+	const putRoomStateMutation = usePutRoomState(room);
 
 	const handleClick = () => {
 		putRoomStateMutation.mutate(roomState.state_id)
@@ -29,17 +30,17 @@ export const CardRoomStateButton = (props: CardRoomStateButtonProps) => {
 }
 
 export interface CardRoomStatesProps {
-	roomName: string;
+	room: Room;
 }
 
 export const CardRoomStates = (props: CardRoomStatesProps) => {
-	const { roomName } = props;
+	const { room } = props;
 
 	const {
 		data: roomStates,
 		isFetching: fetchingRoomStates,
 		isError: errorRoomStates,
-	} = useFetchRoomStates(roomName);
+	} = useFetchRoomStates(room.name);
 
 	if (errorRoomStates) return <Typography color="error">Error</Typography>;
 	if (fetchingRoomStates) return <LinearProgress />;
@@ -47,6 +48,7 @@ export const CardRoomStates = (props: CardRoomStatesProps) => {
 		return <React.Fragment>
 			{roomStates.map((roomState) => (
 				<CardRoomStateButton
+					room={room}
 					roomState={roomState}
 				/>
 			))}

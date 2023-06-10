@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQuery, UseQueryResult } from 'react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 
 import { API_BASE_URL, API_HEADER } from './HomeControlAPI';
 
@@ -83,10 +83,25 @@ export const putRoomState = (
 		});
 };
 
-export const usePutRoomState = () => {
+export const usePutRoomState = (room: Room) => {
+	const queryClient = useQueryClient();
+
 	return useMutation(
 		(stateID: string): Promise<RoomState> => {
 			return putRoomState(stateID);
+		},
+		{
+			onSuccess: () => {
+				// Invalidate AC queries
+				queryClient.invalidateQueries(['fetchDeviceState', room.ac_device_name]);
+				// Invalidate light queries
+				queryClient.invalidateQueries(['fetchGroupedLightState', room.hue_light_group]);
+				if (room.hue_lights) {
+					room.hue_lights.forEach((lightID) =>
+						queryClient.invalidateQueries(['fetchLightState', lightID]),
+					);
+				}
+			},
 		},
 	);
 };
