@@ -5,9 +5,27 @@ import { Room, RoomState, useFetchRoomStates, usePutRoomState } from '../homecon
 import LinearProgress from '@mui/material/LinearProgress';
 import { IconButton, Tooltip } from '@mui/material';
 import BedIcon from '@mui/icons-material/Bed';
+import ComputerIcon from '@mui/icons-material/Computer';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import BedtimeIcon from '@mui/icons-material/Bedtime';
+import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import WorkIcon from '@mui/icons-material/Work';
 
 const ICONS = {
-	"bed": <BedIcon/>
+	"bed": <BedIcon/>,
+	"computer": <ComputerIcon/>,
+	"cold": <AcUnitIcon/>,
+	"hot": <WbSunnyIcon />,
+	"night": <BedtimeIcon />,
+	"breakfast": <BreakfastDiningIcon />,
+	"lunch": <LunchDiningIcon />,
+	"dinner": <DinnerDiningIcon/>,
+	"celebration": <CelebrationIcon/>,
+	"work": <WorkIcon />
 }
 
 export interface CardRoomStateButtonProps {
