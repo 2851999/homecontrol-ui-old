@@ -15,7 +15,7 @@ import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import WorkIcon from '@mui/icons-material/Work';
 
-const ICONS = {
+const ICONS: {[key: string]: JSX.Element} = {
 	"bed": <BedIcon/>,
 	"computer": <ComputerIcon/>,
 	"cold": <AcUnitIcon/>,
