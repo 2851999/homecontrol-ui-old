@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import enGB from 'date-fns/locale/en-GB';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -7,6 +7,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { TemperatureGraph } from '../monitoring/TemperatureGraph';
 import { useFetchDeviceList } from '../homecontrol/AirconAPI';
+import { useSearchParams } from 'react-router-dom';
 
 const calcDateAgo = (days: number) => {
 	const date = new Date();
@@ -21,10 +22,25 @@ export const MonitoringPage = () => {
 		isError: errorDeviceList,
 	} = useFetchDeviceList();
 
-	// Default to the last 30 days
-	const [startDate, setStartDate] = useState<Date | undefined>(
-		calcDateAgo(30),
-	);
+	const [startDate, setStartDate] = useState<Date>();
+
+	const [searchParams, setSearchParams] = useSearchParams();
+	useEffect(() => {
+		const dateStr = searchParams.get("start")
+		if (dateStr == null) {
+			// Default to the last 30 days
+			searchParams.set("start", calcDateAgo(30).toISOString());
+			setSearchParams(searchParams, {replace: true});
+		} else
+			setStartDate(new Date(dateStr))
+	}, [searchParams, setSearchParams])
+
+	const handleChange = (newValue: Date | null) => {
+		if (newValue) {
+			searchParams.set("start", newValue.toISOString());
+			setSearchParams(searchParams);
+		}
+	}
 
 	return (
 		<Box>
@@ -59,7 +75,7 @@ export const MonitoringPage = () => {
 						<DatePicker
 							label="Start date"
 							value={startDate}
-							onChange={(newValue) => setStartDate(newValue)}
+							onChange={handleChange}
 							sx={{ marginBottom: 2 }}
 						/>
 					</Box>
